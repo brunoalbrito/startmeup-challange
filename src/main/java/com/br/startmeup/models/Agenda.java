@@ -1,9 +1,6 @@
 package com.br.startmeup.models;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.List;
 
 @Entity
@@ -17,6 +14,9 @@ public class Agenda {
 
     private String descricao;
 
+    private long IdUsuario;
+
+    @OneToMany
     private List<Evento> eventos;
 
     public long getId() {
@@ -51,12 +51,21 @@ public class Agenda {
         this.eventos = eventos;
     }
 
+    public long getIdUsuario() {
+        return IdUsuario;
+    }
+
+    public void setIdUsuario(long idUsuario) {
+        IdUsuario = idUsuario;
+    }
+
     @Override
     public String toString() {
         return "Agenda{" +
                 "Id=" + Id +
                 ", nome='" + nome + '\'' +
                 ", descricao='" + descricao + '\'' +
+                ", IdUsuario=" + IdUsuario +
                 ", eventos=" + eventos +
                 '}';
     }
