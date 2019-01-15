@@ -1,4 +1,4 @@
-package com.br.startmeup.persistence;
+package com.br.startmeup.interfaces;
 
 import java.util.List;
 

@@ -21,7 +21,7 @@ public class UsuarioController extends Application {
     public String get(){
         System.out.println("Saiu aqui");
 
-        EntityManager entityManager = new JpaEntityManager().getEntityManager();
+        //EntityManager entityManager = new JpaEntityManager().getEntityManager();
 
         Connection connection = SingletonConnection.getInstance().getConnection();
 
