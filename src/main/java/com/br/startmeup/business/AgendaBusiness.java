@@ -62,4 +62,27 @@ public class AgendaBusiness {
         response.setStatus(StatusEnum.FALHA);
         return response;
     }
+
+    public ObjectResponse<Boolean> updateAgenda(Agenda agenda) {
+
+        ObjectResponse<Boolean> response = new ObjectResponse<>();
+        boolean result = genericDAO.update(agenda);
+        if(result){
+            response.setMessage("Agenda atualizada com sucesso");
+        }else{
+            response.setMessage("Falha ao atualizar agenda");
+        }
+        return response;
+    }
+
+    public ObjectResponse<Boolean> deleteAgenda(Agenda agenda){
+        ObjectResponse<Boolean> response = new ObjectResponse<>();
+        boolean result = genericDAO.delete(agenda);
+        if(result){
+            response.setMessage("Agenda excluida com sucesso");
+        }else{
+            response.setMessage("Falha ao excluir agenda");
+        }
+        return response;
+    }
 }

@@ -69,4 +69,29 @@ public class AgendaController {
         return response.getMessage();
     }
 
+    @PUT
+    public String update(@FormParam("id") long id,
+                         @FormParam("nome")String nome,
+                         @FormParam("descricao")String descricao){
+        Agenda agenda = new Agenda();
+        agenda.setId(id);
+        agenda.setNome(nome);
+        agenda.setDescricao(descricao);
+
+        ObjectResponse<Boolean> response = agendaBusiness
+                .updateAgenda(agenda);
+
+        return response.getMessage();
+    }
+
+    @DELETE
+    public String delete(@FormParam("id") long id){
+        Agenda agenda = new Agenda();
+        agenda.setId(id);
+
+        ObjectResponse<Boolean> response = agendaBusiness
+                .deleteAgenda(agenda);
+
+        return response.getMessage();
+    }
 }

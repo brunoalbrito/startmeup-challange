@@ -85,13 +85,12 @@ public class AgendaDAO implements GenericDAO<Agenda>{
 
     @Override
     public boolean update(Agenda agenda) {
-        String sql = "UPDATE usuario SET nome=?, fkUsuario=?, descricao=? WHERE id = ?";
+        String sql = "UPDATE agenda SET nome=?, descricao=? WHERE id =?";
 
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setString(1, agenda.getNome());
-            ps.setLong(2, agenda.getIdUsuario());
-            ps.setString(3, agenda.getDescricao());
-            ps.setLong(4, agenda.getId());
+            ps.setString(2, agenda.getDescricao());
+            ps.setLong(3, agenda.getId());
 
             if(ps.executeUpdate() != 0){
                 return true;
