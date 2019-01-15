@@ -1,19 +1,69 @@
 package com.br.startmeup.business;
 
+import com.br.startmeup.DTO.ObjectResponse;
+import com.br.startmeup.Enum.StatusEnum;
 import com.br.startmeup.interfaces.GenericDAO;
 import com.br.startmeup.models.Usuario;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class UsuarioBusiness {
 
     private GenericDAO<Usuario> genericDAO;
 
-    public UsuarioBusiness(GenericDAO<Usuario> genericDAO){
+    public UsuarioBusiness(GenericDAO<Usuario> genericDAO) {
         this.genericDAO = genericDAO;
     }
 
-    public List<Usuario> findAll(){
-        return  genericDAO.findAll();
+    public ObjectResponse<List<Usuario>> findAllUsuarios() {
+
+        List<Usuario> usuarios = genericDAO.findAll();
+        ObjectResponse<List<Usuario>> response = new ObjectResponse<>();
+
+        if (!usuarios.isEmpty()) {
+            response.setStatus(StatusEnum.OK);
+            response.setObject(usuarios);
+            return response;
+        }
+        response.setStatus(StatusEnum.VAZIO);
+        response.setMessage("A lista está vazia");
+
+        return response;
+    }
+
+    public ObjectResponse<Usuario> findByIdUsuario(long id) {
+
+
+        Usuario usuario = genericDAO.findById(id);
+        ObjectResponse<Usuario> response = new ObjectResponse<>();
+
+        if (usuario != null) {
+            response.setStatus(StatusEnum.OK);
+            response.setObject(usuario);
+            return response;
+        }
+        response.setStatus(StatusEnum.VAZIO);
+        response.setMessage("Usuario não encontrado");
+
+        return response;
+    }
+
+    public ObjectResponse<Boolean> create(Usuario usuario){
+
+        ObjectResponse<Boolean> response = new ObjectResponse<>();
+
+        boolean status = genericDAO.create(usuario);
+
+        if(status){
+            response.setMessage("Usuario criado com sucesso");
+            response.setStatus(StatusEnum.OK);
+            return response;
+        }
+
+        response.setMessage("Falha ao criar Usuario");
+        response.setStatus(StatusEnum.FALHA);
+
+        return response;
     }
 }

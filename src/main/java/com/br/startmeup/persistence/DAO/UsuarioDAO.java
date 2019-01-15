@@ -21,12 +21,44 @@ public class UsuarioDAO implements GenericDAO<Usuario> {
 
     @Override
     public boolean create(Usuario usuario) {
+
+        String  sql = "INSERT INTO usuario(nome,email,senha)VALUES(?,?,?)";
+
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setString(1, usuario.getNome());
+            ps.setString(2, usuario.getEmail());
+            ps.setString(3, usuario.getSenha());
+
+            if(ps.executeUpdate() != 0){
+                return true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
         return false;
     }
 
     @Override
     public Usuario findById(long id) {
-        return null;
+
+        Usuario usuario = new Usuario();
+
+        try{
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM usuario WHERE id = ?");
+            statement.setLong(1, id);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()){
+                usuario.setId(rs.getLong("id"));
+                usuario.setNome(rs.getString("nome"));
+                usuario.setEmail(rs.getString("email"));
+                usuario.setSenha(rs.getString("senha"));
+            }
+        }catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return usuario;
     }
 
     @Override
