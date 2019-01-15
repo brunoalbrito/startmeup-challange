@@ -83,7 +83,17 @@ public class UsuarioController extends Application {
         usuario.setEmail(email);
         usuario.setSenha(senha);
 
-        ObjectResponse<Boolean> response = usuarioBusiness.update(usuario);
+        ObjectResponse<Boolean> response = usuarioBusiness.updateUsuario(usuario);
+
+        return response.getMessage();
+    }
+
+    @DELETE
+    public String delete(@FormParam("id")long id){
+        Usuario usuario = new Usuario();
+        usuario.setId(id);
+
+        ObjectResponse<Boolean> response = usuarioBusiness.deleteUsuario(usuario);
 
         return response.getMessage();
     }

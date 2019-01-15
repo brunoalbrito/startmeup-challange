@@ -66,7 +66,7 @@ public class UsuarioBusiness {
         return response;
     }
 
-    public ObjectResponse<Boolean> update(Usuario usuario){
+    public ObjectResponse<Boolean> updateUsuario(Usuario usuario){
 
         ObjectResponse<Boolean> response = new ObjectResponse<>();
 
@@ -80,6 +80,23 @@ public class UsuarioBusiness {
 
         response.setStatus(StatusEnum.FALHA);
         response.setMessage("Falha ao atualizar usuario");
+
+        return response;
+    }
+
+
+    public ObjectResponse<Boolean> deleteUsuario(Usuario usuario){
+
+        ObjectResponse<Boolean> response = new ObjectResponse<>();
+        response.setObject(genericDAO.delete(usuario));
+
+        if(response.getObject()){
+            response.setStatus(StatusEnum.OK);
+            response.setMessage("Usuario excluido com sucesso");
+            return response;
+        }
+        response.setStatus(StatusEnum.FALHA);
+        response.setMessage("Falha ao excluir usuario");
 
         return response;
     }

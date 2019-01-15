@@ -106,6 +106,16 @@ public class UsuarioDAO implements GenericDAO<Usuario> {
 
     @Override
     public boolean delete(Usuario usuario) {
+        String sql = "DELETE FROM usuario WHERE id = ?";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setLong(1, usuario.getId());
+            if(ps.executeUpdate() != 0){
+                return true;
+            }
+        }catch (SQLException e) {
+            e.printStackTrace();
+        }
         return false;
     }
 }
