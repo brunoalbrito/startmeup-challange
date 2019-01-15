@@ -67,9 +67,23 @@ public class UsuarioController extends Application {
         usuario.setSenha(senha);
 
         ObjectResponse<Boolean> response = usuarioBusiness.create(usuario);
-        if(response.isStatus() == StatusEnum.OK){
-            return response.getMessage();
-        }
+
+        return response.getMessage();
+    }
+
+    @PUT
+    public String update(@FormParam("id") long id,
+                         @FormParam("nome") String nome,
+                         @FormParam("email") String email,
+                         @FormParam("senha") String senha) {
+
+        Usuario usuario = new Usuario();
+        usuario.setId(id);
+        usuario.setNome(nome);
+        usuario.setEmail(email);
+        usuario.setSenha(senha);
+
+        ObjectResponse<Boolean> response = usuarioBusiness.update(usuario);
 
         return response.getMessage();
     }

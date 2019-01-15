@@ -5,7 +5,6 @@ import com.br.startmeup.Enum.StatusEnum;
 import com.br.startmeup.interfaces.GenericDAO;
 import com.br.startmeup.models.Usuario;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class UsuarioBusiness {
@@ -63,6 +62,24 @@ public class UsuarioBusiness {
 
         response.setMessage("Falha ao criar Usuario");
         response.setStatus(StatusEnum.FALHA);
+
+        return response;
+    }
+
+    public ObjectResponse<Boolean> update(Usuario usuario){
+
+        ObjectResponse<Boolean> response = new ObjectResponse<>();
+
+        boolean result = genericDAO.update(usuario);
+
+        if(result){
+            response.setStatus(StatusEnum.OK);
+            response.setMessage("Usuario alterado com sucesso");
+            return response;
+        }
+
+        response.setStatus(StatusEnum.FALHA);
+        response.setMessage("Falha ao atualizar usuario");
 
         return response;
     }
