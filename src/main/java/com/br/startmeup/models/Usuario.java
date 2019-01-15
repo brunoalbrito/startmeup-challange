@@ -1,8 +1,14 @@
 package com.br.startmeup.models;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+
+@Entity
 public class Usuario {
 
-    private int id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private long id;
 
     private String nome;
 
@@ -10,7 +16,7 @@ public class Usuario {
 
     private String senha;
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
@@ -40,5 +46,15 @@ public class Usuario {
 
     public void setSenha(String senha) {
         this.senha = senha;
+    }
+
+    @Override
+    public String toString() {
+        return "Usuario{" +
+                "id=" + id +
+                ", nome='" + nome + '\'' +
+                ", email='" + email + '\'' +
+                ", senha='" + senha + '\'' +
+                '}';
     }
 }

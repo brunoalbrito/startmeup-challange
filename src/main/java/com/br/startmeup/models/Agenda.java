@@ -1,18 +1,26 @@
 package com.br.startmeup.models;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity
 public class Agenda {
 
-    private int Id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private long Id;
 
     private String nome;
 
     private String descricao;
 
-    public int getId() {
+    public long getId() {
         return Id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         Id = id;
     }
 
@@ -30,5 +38,14 @@ public class Agenda {
 
     public void setDescricao(String descricao) {
         this.descricao = descricao;
+    }
+
+    @Override
+    public String toString() {
+        return "Agenda{" +
+                "Id=" + Id +
+                ", nome='" + nome + '\'' +
+                ", descricao='" + descricao + '\'' +
+                '}';
     }
 }

@@ -1,10 +1,17 @@
 package com.br.startmeup.models;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import java.util.Date;
 
+@Entity
 public class Evento {
 
-    private int id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private long id;
 
     private String nome;
 
@@ -14,11 +21,11 @@ public class Evento {
 
     private Date data;
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -52,5 +59,16 @@ public class Evento {
 
     public void setData(Date data) {
         this.data = data;
+    }
+
+    @Override
+    public String toString() {
+        return "Evento{" +
+                "id=" + id +
+                ", nome='" + nome + '\'' +
+                ", endereco='" + endereco + '\'' +
+                ", local='" + local + '\'' +
+                ", data=" + data +
+                '}';
     }
 }
