@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import java.util.List;
 
 @Entity
 public class Agenda {
@@ -15,6 +16,8 @@ public class Agenda {
     private String nome;
 
     private String descricao;
+
+    private List<Evento> eventos;
 
     public long getId() {
         return Id;
@@ -40,12 +43,21 @@ public class Agenda {
         this.descricao = descricao;
     }
 
+    public List<Evento> getEventos() {
+        return eventos;
+    }
+
+    public void setEventos(List<Evento> eventos) {
+        this.eventos = eventos;
+    }
+
     @Override
     public String toString() {
         return "Agenda{" +
                 "Id=" + Id +
                 ", nome='" + nome + '\'' +
                 ", descricao='" + descricao + '\'' +
+                ", eventos=" + eventos +
                 '}';
     }
 }

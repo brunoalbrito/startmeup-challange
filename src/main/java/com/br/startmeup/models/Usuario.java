@@ -3,6 +3,7 @@ package com.br.startmeup.models;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
+import java.util.List;
 
 @Entity
 public class Usuario {
@@ -16,13 +17,16 @@ public class Usuario {
 
     private String senha;
 
+    private List<Agenda> agendas;
+
     public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
+
 
     public String getNome() {
         return nome;
@@ -48,6 +52,14 @@ public class Usuario {
         this.senha = senha;
     }
 
+    public List<Agenda> getAgendas() {
+        return agendas;
+    }
+
+    public void setAgendas(List<Agenda> agendas) {
+        this.agendas = agendas;
+    }
+
     @Override
     public String toString() {
         return "Usuario{" +
@@ -55,6 +67,7 @@ public class Usuario {
                 ", nome='" + nome + '\'' +
                 ", email='" + email + '\'' +
                 ", senha='" + senha + '\'' +
+                ", agendas=" + agendas +
                 '}';
     }
 }
