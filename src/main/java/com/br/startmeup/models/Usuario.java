@@ -1,13 +1,12 @@
 package com.br.startmeup.models;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
+import javax.persistence.*;
 import java.util.List;
 
 @Entity
 public class Usuario {
 
+    @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
@@ -17,6 +16,7 @@ public class Usuario {
 
     private String senha;
 
+    @OneToMany
     private List<Agenda> agendas;
 
     public long getId() {
