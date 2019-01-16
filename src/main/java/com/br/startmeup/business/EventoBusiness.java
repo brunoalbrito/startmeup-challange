@@ -1,6 +1,7 @@
 package com.br.startmeup.business;
 
 import com.br.startmeup.DTO.ObjectResponse;
+import com.br.startmeup.Enum.StatusEnum;
 import com.br.startmeup.controllers.EventoController;
 import com.br.startmeup.interfaces.GenericDAO;
 import com.br.startmeup.models.Evento;
@@ -19,7 +20,18 @@ public class EventoBusiness {
     }
 
     public ObjectResponse<List<Evento>> findAllEventos(){
-        return null;
+
+        ObjectResponse<List<Evento>> response = new ObjectResponse<>();
+        response.setObject(genericDAO.findAll());
+        if(response.getObject() !=  null){
+            response.setStatus(StatusEnum.OK);
+            return response;
+        }
+
+        response.setMessage("Nenhum eventos cadastrado");
+
+
+        return response;
     }
 
     public ObjectResponse<Evento> findByIdEvento(){

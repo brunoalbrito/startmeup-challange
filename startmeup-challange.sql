@@ -5,15 +5,6 @@ CREATE TABLE convidado(id INT NOT NULL AUTO_INCREMENT,
 nome varchar(25),
 email varchar(40),
 telefone int,PRIMARY KEY(id));
-
-INSERT INTO convidado(nome,email,telefone)VALUES('Bruno','bruno@bruno.com', 999999999);
-
-SELECT * FROM convidado;
-
-DROP TABLE convidado;
-
-CREATE DATABASE startmeup;
-
 USE startmeup;
 DROP TABLE usuario;
 
@@ -47,7 +38,7 @@ SELECT * FROM agenda;
 CREATE TABLE evento(id int not null auto_increment,
 nome varchar(50) not null,
 endereco varchar(100) not null,
-dataEvent datetime not null,
+dataEvent timestamp not null,
 fkAgenda int not null,
 FOREIGN KEY(fkAgenda) references  agenda(id) ON DELETE CASCADE ON UPDATE CASCADE,
 PRIMARY KEY(id));
@@ -56,4 +47,13 @@ DESC evento;
 
 SELECT * FROM evento;
 
+DROP TABLE evento;
+
 INSERT INTO evento(nome, endereco, dataEvent,fkAgenda)values('Evento Teste','Vargem grande',NOW() ,2);
+
+
+/*ARRUMANDO TIME ZONE*/
+#https://elias.praciano.com/2015/07/como-ajustar-o-fuso-horario-ou-timezone-no-mysql/
+
+SET time_zone='America/Sao_Paulo';
+

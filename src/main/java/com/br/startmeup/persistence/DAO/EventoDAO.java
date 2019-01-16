@@ -3,10 +3,8 @@ package com.br.startmeup.persistence.DAO;
 import com.br.startmeup.interfaces.GenericDAO;
 import com.br.startmeup.models.Evento;
 
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class EventoDAO implements GenericDAO<Evento> {
@@ -27,7 +25,7 @@ public class EventoDAO implements GenericDAO<Evento> {
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setString(1, evento.getNome());
             ps.setString(2,evento.getEndereco());
-            ps.setDate(3, new Date(evento.getData().getTime()));
+            ps.setTimestamp(3, new Timestamp(evento.getData().getTime()));
             ps.setLong(4, evento.getFkAgenda());
 
             if(ps.executeUpdate() != 0)
@@ -47,7 +45,25 @@ public class EventoDAO implements GenericDAO<Evento> {
 
     @Override
     public List<Evento> findAll() {
-        return null;
+
+        List<Evento> eventos = new ArrayList<>();
+        String sql = "SELECT * FROM evento";
+
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()){
+                Evento evento = new Evento();
+                evento.setNome(rs.getString("nome"));
+                evento.setEndereco(rs.getString("endereco"));
+                evento.setData(new java.util.Date(rs.getDate("dataEvent").getTime()));
+                evento.setFkAgenda(rs.getLong("fkAgenda"));
+                eventos.add(evento);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return eventos;
     }
 
     @Override

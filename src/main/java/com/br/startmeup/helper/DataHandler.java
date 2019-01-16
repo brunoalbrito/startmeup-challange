@@ -8,7 +8,7 @@ import java.util.Date;
 public class DataHandler {
 
     public static Date parseStringtoDate(String data){
-        DateFormat formatter = new SimpleDateFormat("MM-dd-yy");
+        DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         Date date = null;
         try {
             date = formatter.parse(data);

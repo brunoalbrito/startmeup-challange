@@ -1,6 +1,7 @@
 package com.br.startmeup.controllers;
 
 import com.br.startmeup.DTO.ObjectResponse;
+import com.br.startmeup.Enum.StatusEnum;
 import com.br.startmeup.business.EventoBusiness;
 import com.br.startmeup.helper.DataHandler;
 import com.br.startmeup.interfaces.GenericDAO;
@@ -8,12 +9,14 @@ import com.br.startmeup.models.Evento;
 import com.br.startmeup.models.Usuario;
 import com.br.startmeup.persistence.DAO.EventoDAO;
 import com.br.startmeup.persistence.connection.SingletonConnection;
+import com.google.gson.Gson;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.List;
 
 @Path("eventos")
 public class EventoController {
@@ -29,7 +32,15 @@ public class EventoController {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public String findAll() {
-        return null;
+
+        ObjectResponse<List<Evento>> response = eventoBusiness.findAllEventos();
+
+        if(response.isStatus() == StatusEnum.OK){
+            String json = new Gson().toJson(response.getObject());
+
+            return json;
+        }
+        return response.getMessage();
     }
 
     @GET
