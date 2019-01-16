@@ -22,7 +22,7 @@ public class UsuarioDAO implements GenericDAO<Usuario> {
     @Override
     public boolean create(Usuario usuario) {
 
-        String  sql = "INSERT INTO usuario(nome,email,senha)VALUES(?,?,?)";
+        String  sql = "INSERT INTO startmeup.Usuario(nome,email,senha)VALUES(?,?,?)";
 
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setString(1, usuario.getNome());
@@ -45,7 +45,7 @@ public class UsuarioDAO implements GenericDAO<Usuario> {
         Usuario usuario = new Usuario();
 
         try{
-            PreparedStatement statement = connection.prepareStatement("SELECT * FROM usuario WHERE id = ?");
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM startmeup.Usuario WHERE id = ?");
             statement.setLong(1, id);
             ResultSet rs = statement.executeQuery();
             while (rs.next()){
@@ -67,7 +67,7 @@ public class UsuarioDAO implements GenericDAO<Usuario> {
         List<Usuario> usuarios = new ArrayList<>();
 
         try{
-            PreparedStatement statement = connection.prepareStatement("SELECT * FROM usuario");
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM startmeup.Usuario");
             ResultSet rs = statement.executeQuery();
             while (rs.next()){
                 Usuario usuario = new Usuario();
@@ -86,7 +86,7 @@ public class UsuarioDAO implements GenericDAO<Usuario> {
 
     @Override
     public boolean update(Usuario usuario) {
-        String sql = "UPDATE usuario SET nome=?, email=?, senha=? WHERE id = ?";
+        String sql = "UPDATE startmeup.Usuario SET nome=?, email=?, senha=? WHERE id = ?";
 
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setString(1, usuario.getNome());
@@ -106,7 +106,7 @@ public class UsuarioDAO implements GenericDAO<Usuario> {
 
     @Override
     public boolean delete(Usuario usuario) {
-        String sql = "DELETE FROM usuario WHERE id = ?";
+        String sql = "DELETE FROM startmeup.Usuario WHERE id = ?";
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setLong(1, usuario.getId());

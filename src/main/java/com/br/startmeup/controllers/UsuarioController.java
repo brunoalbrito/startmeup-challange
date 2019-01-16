@@ -10,6 +10,9 @@ import com.br.startmeup.persistence.DAO.UsuarioDAO;
 import com.br.startmeup.persistence.connection.SingletonConnection;
 import com.google.gson.Gson;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Application;
 import javax.ws.rs.core.MediaType;
@@ -20,12 +23,17 @@ public class UsuarioController extends Application {
 
     private GenericDAO<Usuario> genericDAO;
 
+    private EntityManagerFactory factory;
+    private EntityManager em;
+
     private UsuarioBusiness usuarioBusiness;
 
     public UsuarioController() {
         this.genericDAO =
                 new UsuarioDAO(SingletonConnection.getInstance().getConnection());
         this.usuarioBusiness = new UsuarioBusiness(genericDAO);
+        this.factory = Persistence.createEntityManagerFactory("teste");
+        this.em = em = factory.createEntityManager();
     }
 
 
@@ -39,6 +47,7 @@ public class UsuarioController extends Application {
             String json = new Gson().toJson(response.getObject());
             return json;
         }
+
         return response.getMessage();
     }
 
@@ -61,14 +70,19 @@ public class UsuarioController extends Application {
     public String create(@FormParam("nome") String nome,
                          @FormParam("email") String email,
                          @FormParam("senha") String senha) {
+//    public String create() {
         Usuario usuario = new Usuario();
         usuario.setNome(nome);
         usuario.setEmail(email);
         usuario.setSenha(senha);
 
-        ObjectResponse<Boolean> response = usuarioBusiness.create(usuario);
+        em.getTransaction().begin();
+        em.merge(usuario);
+        em.getTransaction().commit();
 
-        return response.getMessage();
+//        ObjectResponse<Boolean> response = usuarioBusiness.create(usuario);
+
+        return "Sucesso";
     }
 
     @PUT
