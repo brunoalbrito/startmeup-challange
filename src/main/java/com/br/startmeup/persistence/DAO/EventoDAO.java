@@ -25,6 +25,8 @@ public class EventoDAO implements GenericDAO<Evento> {
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setString(1, evento.getNome());
             ps.setString(2,evento.getEndereco());
+            long x = evento.getData().getTime();
+            long y = new Date(x).getTime();
             ps.setTimestamp(3, new Timestamp(evento.getData().getTime()));
             ps.setLong(4, evento.getFkAgenda());
 

@@ -46,6 +46,8 @@ public class EventoController {
     @GET
     @Path("/{id}")
     public String findById() {
+
+        //FAZER FIND BY ID
         return null;
     }
 
