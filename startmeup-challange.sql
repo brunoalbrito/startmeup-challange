@@ -33,6 +33,7 @@ DELETE FROM usuario WHERE id = 5;
 CREATE TABLE agenda(id int not null auto_increment,
 nome varchar(50) not null,
 fkUsuario int not null,
+descricao varchar(100),
 FOREIGN KEY(fkUsuario) references  usuario(id) ON DELETE CASCADE ON UPDATE CASCADE,
 PRIMARY KEY(id));
 
@@ -41,3 +42,18 @@ DROP TABLE agenda;
 INSERT INTO agenda(nome, fkUsuario)VALUES("Agenda Google", 1);
 
 SELECT * FROM agenda;
+
+
+CREATE TABLE evento(id int not null auto_increment,
+nome varchar(50) not null,
+endereco varchar(100) not null,
+dataEvent datetime not null,
+fkAgenda int not null,
+FOREIGN KEY(fkAgenda) references  agenda(id) ON DELETE CASCADE ON UPDATE CASCADE,
+PRIMARY KEY(id));
+
+DESC evento;
+
+SELECT * FROM evento;
+
+INSERT INTO evento(nome, endereco, dataEvent,fkAgenda)values('Evento Teste','Vargem grande',NOW() ,2);

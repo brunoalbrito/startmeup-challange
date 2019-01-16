@@ -26,8 +26,18 @@ public class EventoBusiness {
         return null;
     }
 
-    public ObjectResponse<Boolean> createEvento(){
-        return null;
+    public ObjectResponse<Boolean> createEvento(Evento evento){
+
+        ObjectResponse<Boolean> response = new ObjectResponse<>();
+        boolean result = genericDAO.create(evento);
+        if(result){
+            response.setMessage("Evento inserido com sucesso");
+            return response;
+        }
+
+        response.setMessage("Falha ao inserir evento");
+
+        return response;
     }
 
     public ObjectResponse<Boolean> updateEvento(){

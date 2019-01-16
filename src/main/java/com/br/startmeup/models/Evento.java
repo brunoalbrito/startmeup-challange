@@ -17,9 +17,9 @@ public class Evento {
 
     private String endereco;
 
-    private String local;
-
     private Date data;
+
+    private long fkAgenda;
 
     public long getId() {
         return id;
@@ -45,14 +45,6 @@ public class Evento {
         this.endereco = endereco;
     }
 
-    public String getLocal() {
-        return local;
-    }
-
-    public void setLocal(String local) {
-        this.local = local;
-    }
-
     public Date getData() {
         return data;
     }
@@ -61,14 +53,22 @@ public class Evento {
         this.data = data;
     }
 
+    public long getFkAgenda() {
+        return fkAgenda;
+    }
+
+    public void setFkAgenda(long fkAgenda) {
+        this.fkAgenda = fkAgenda;
+    }
+
     @Override
     public String toString() {
         return "Evento{" +
                 "id=" + id +
                 ", nome='" + nome + '\'' +
                 ", endereco='" + endereco + '\'' +
-                ", local='" + local + '\'' +
                 ", data=" + data +
+                ", fkAgenda=" + fkAgenda +
                 '}';
     }
 }

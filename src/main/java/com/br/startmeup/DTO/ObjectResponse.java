@@ -1,7 +1,6 @@
 package com.br.startmeup.DTO;
 
 import com.br.startmeup.Enum.StatusEnum;
-import sun.plugin2.message.Message;
 
 public class ObjectResponse<T> {
 

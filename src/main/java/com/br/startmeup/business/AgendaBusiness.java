@@ -4,9 +4,7 @@ import com.br.startmeup.DTO.ObjectResponse;
 import com.br.startmeup.Enum.StatusEnum;
 import com.br.startmeup.interfaces.GenericDAO;
 import com.br.startmeup.models.Agenda;
-import com.br.startmeup.persistence.DAO.AgendaDAO;
 
-import java.sql.Connection;
 import java.util.List;
 
 public class AgendaBusiness {
