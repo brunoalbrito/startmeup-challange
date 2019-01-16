@@ -34,8 +34,19 @@ public class EventoBusiness {
         return response;
     }
 
-    public ObjectResponse<Evento> findByIdEvento(){
-        return null;
+    public ObjectResponse<Evento> findByIdEvento(long id){
+
+        ObjectResponse<Evento> response = new ObjectResponse<>();
+        response.setObject(genericDAO.findById(id));
+
+        if(response.getObject() != null){
+            response.setStatus(StatusEnum.OK);
+            return  response;
+        }
+        response.setStatus(StatusEnum.VAZIO);
+        response.setMessage("Evento não encontrado");
+
+        return response;
     }
 
     public ObjectResponse<Boolean> createEvento(Evento evento){

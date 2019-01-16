@@ -25,8 +25,6 @@ public class EventoDAO implements GenericDAO<Evento> {
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setString(1, evento.getNome());
             ps.setString(2,evento.getEndereco());
-            long x = evento.getData().getTime();
-            long y = new Date(x).getTime();
             ps.setTimestamp(3, new Timestamp(evento.getData().getTime()));
             ps.setLong(4, evento.getFkAgenda());
 
@@ -51,9 +49,10 @@ public class EventoDAO implements GenericDAO<Evento> {
             ps.setLong(1, id);
             ResultSet rs = ps.executeQuery();
             while (rs.next()){
+                evento.setId(rs.getLong("id"));
                 evento.setNome(rs.getString("nome"));
                 evento.setEndereco(rs.getString("endereco"));
-                evento.setData(new java.util.Date(rs.getDate("dataEvent").getTime()));
+                evento.setData(new java.util.Date(rs.getTimestamp("dataEvent").getTime()));
                 evento.setFkAgenda(rs.getLong("fkAgenda"));
             }
         } catch (SQLException e) {
@@ -73,9 +72,10 @@ public class EventoDAO implements GenericDAO<Evento> {
             ResultSet rs = ps.executeQuery();
             while (rs.next()){
                 Evento evento = new Evento();
+                evento.setId(rs.getLong("id"));
                 evento.setNome(rs.getString("nome"));
                 evento.setEndereco(rs.getString("endereco"));
-                evento.setData(new java.util.Date(rs.getDate("dataEvent").getTime()));
+                evento.setData(new java.util.Date(rs.getTimestamp("dataEvent").getTime()));
                 evento.setFkAgenda(rs.getLong("fkAgenda"));
                 eventos.add(evento);
             }

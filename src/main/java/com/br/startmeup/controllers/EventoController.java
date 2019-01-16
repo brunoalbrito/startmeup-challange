@@ -45,10 +45,13 @@ public class EventoController {
 
     @GET
     @Path("/{id}")
-    public String findById() {
-
-        //FAZER FIND BY ID
-        return null;
+    public String findById(@PathParam("id") long id) {
+        ObjectResponse<Evento> response = eventoBusiness.findByIdEvento(id);
+        if(response.isStatus().equals(StatusEnum.OK)){
+            String json = new Gson().toJson(response.getObject());
+            return json;
+        }
+        return response.getMessage();
     }
 
     @POST
