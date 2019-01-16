@@ -38,7 +38,7 @@ SELECT * FROM agenda;
 CREATE TABLE evento(id int not null auto_increment,
 nome varchar(50) not null,
 endereco varchar(100) not null,
-dataEvent timestamp not null,
+dataEvent datetime not null,
 fkAgenda int not null,
 FOREIGN KEY(fkAgenda) references  agenda(id) ON DELETE CASCADE ON UPDATE CASCADE,
 PRIMARY KEY(id));
