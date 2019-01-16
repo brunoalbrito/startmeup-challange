@@ -35,7 +35,7 @@ public class EventoController {
 
         ObjectResponse<List<Evento>> response = eventoBusiness.findAllEventos();
 
-        if(response.isStatus() == StatusEnum.OK){
+        if (response.isStatus() == StatusEnum.OK) {
             String json = new Gson().toJson(response.getObject());
 
             return json;
@@ -68,13 +68,32 @@ public class EventoController {
     }
 
     @PUT
-    public String update() {
-        return null;
+    public String update(@FormParam("id") long id,
+                         @FormParam("nome") String nome,
+                         @FormParam("endereco") String endereco,
+                         @FormParam("data") String data) {
+
+        Evento evento = new Evento();
+        evento.setId(id);
+        evento.setNome(nome);
+        evento.setEndereco(endereco);
+        evento.setData(DataHandler.parseStringtoDate(data));
+
+        ObjectResponse<Boolean> response =
+                eventoBusiness.updateEvento(evento);
+
+        return response.getMessage();
 
     }
 
     @DELETE
-    public String delete() {
-        return null;
+    public String delete(@FormParam("id")long id) {
+        Evento evento = new Evento();
+        evento.setId(id);
+
+        ObjectResponse<Boolean> response =
+                eventoBusiness.deleteEvento(evento);
+
+        return response.getMessage();
     }
 }

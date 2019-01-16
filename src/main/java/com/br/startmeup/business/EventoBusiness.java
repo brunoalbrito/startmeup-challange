@@ -52,11 +52,29 @@ public class EventoBusiness {
         return response;
     }
 
-    public ObjectResponse<Boolean> updateEvento(){
-        return null;
+    public ObjectResponse<Boolean> updateEvento(Evento evento){
+        ObjectResponse<Boolean> response = new ObjectResponse<>();
+        boolean result = genericDAO.update(evento);
+        if(result){
+            response.setMessage("Evento atualizado com sucesso");
+            return response;
+        }
+
+        response.setMessage("Falha ao atualizar evento");
+
+        return response;
     }
 
-    public ObjectResponse<Boolean> deleteEvento(){
-        return null;
+    public ObjectResponse<Boolean> deleteEvento(Evento evento){
+        ObjectResponse<Boolean> response = new ObjectResponse<>();
+        boolean result = genericDAO.delete(evento);
+        if(result){
+            response.setMessage("Evento removido com sucesso");
+            return response;
+        }
+
+        response.setMessage("Falha ao remover evento");
+
+        return response;
     }
 }

@@ -87,14 +87,13 @@ public class EventoDAO implements GenericDAO<Evento> {
     public boolean update(Evento evento) {
         boolean result = false;
 
-        String sql = "UPDATE evento SET nome = ?,endereco = ?,dataEvent = ?, fkAgenda = ? WHERE id = ?";
+        String sql = "UPDATE evento SET nome = ?,endereco = ?,dataEvent = ? WHERE id = ?";
 
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setString(1, evento.getNome());
             ps.setString(2,evento.getEndereco());
             ps.setTimestamp(3, new Timestamp(evento.getData().getTime()));
-            ps.setLong(4, evento.getFkAgenda());
-            ps.setLong(5,evento.getId());
+            ps.setLong(4,evento.getId());
 
             if(ps.executeUpdate() != 0)
                 result = true;
@@ -109,7 +108,7 @@ public class EventoDAO implements GenericDAO<Evento> {
     public boolean delete(Evento evento) {
 
         List<Evento> eventos = new ArrayList<>();
-        String sql = "DROP evento WHERE id = ?";
+        String sql = "DELETE FROM evento WHERE id =?";
 
         boolean result = false;
 
