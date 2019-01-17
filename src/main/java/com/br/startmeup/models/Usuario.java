@@ -18,7 +18,7 @@ public class Usuario {
     private String senha;
 
     @OneToMany
-    private List<Agenda> agendas;
+    private List<Evento> eventos;
 
     public long getId() {
         return id;
@@ -53,12 +53,12 @@ public class Usuario {
         this.senha = senha;
     }
 
-    public List<Agenda> getAgendas() {
-        return agendas;
+    public List<Evento> getEventos() {
+        return eventos;
     }
 
-    public void setAgendas(List<Agenda> agendas) {
-        this.agendas = agendas;
+    public void setAgendas(List<Evento> eventos) {
+        this.eventos = eventos;
     }
 
     @Override
@@ -68,7 +68,7 @@ public class Usuario {
                 ", nome='" + nome + '\'' +
                 ", email='" + email + '\'' +
                 ", senha='" + senha + '\'' +
-                ", agendas=" + agendas +
+                ", eventos=" + eventos +
                 '}';
     }
 }

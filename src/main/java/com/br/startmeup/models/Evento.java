@@ -13,13 +13,13 @@ public class Evento {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    private String nome;
+    private String titulo;
 
-    private String endereco;
+    private Date dataInicio;
 
-    private Date data;
+    private Date dataFim;
 
-    private long fkAgenda;
+    private long fkUsuario;
 
     public long getId() {
         return id;
@@ -29,46 +29,46 @@ public class Evento {
         this.id = id;
     }
 
-    public String getNome() {
-        return nome;
+    public String getTitulo() {
+        return titulo;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setTitulo(String titulo) {
+        this.titulo = titulo;
     }
 
-    public String getEndereco() {
-        return endereco;
+    public Date getDataInicio() {
+        return dataInicio;
     }
 
-    public void setEndereco(String endereco) {
-        this.endereco = endereco;
+    public void setDataInicio(Date dataInicio) {
+        this.dataInicio = dataInicio;
     }
 
-    public Date getData() {
-        return data;
+    public Date getDataFim() {
+        return dataFim;
     }
 
-    public void setData(Date data) {
-        this.data = data;
+    public void setDataFim(Date dataFim) {
+        this.dataFim = dataFim;
     }
 
-    public long getFkAgenda() {
-        return fkAgenda;
+    public long getFkUsuario() {
+        return fkUsuario;
     }
 
-    public void setFkAgenda(long fkAgenda) {
-        this.fkAgenda = fkAgenda;
+    public void setFkUsuario(long fkUsuario) {
+        this.fkUsuario = fkUsuario;
     }
 
     @Override
     public String toString() {
         return "Evento{" +
                 "id=" + id +
-                ", nome='" + nome + '\'' +
-                ", endereco='" + endereco + '\'' +
-                ", data=" + data +
-                ", fkAgenda=" + fkAgenda +
+                ", titulo='" + titulo + '\'' +
+                ", dataInicio=" + dataInicio +
+                ", dataFim=" + dataFim +
+                ", fkUsuario=" + fkUsuario +
                 '}';
     }
 }

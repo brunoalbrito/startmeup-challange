@@ -20,13 +20,13 @@ public class EventoDAO implements GenericDAO<Evento> {
 
         boolean result = false;
 
-        String sql = "INSERT INTO evento(nome,endereco,dataEvent, fkAgenda)VALUES(?,?,?,?)";
+        String sql = "INSERT INTO startmeup.Evento(titulo, dataInicio, dataFim,fkUsuario)VALUES(?,?,?,?)";
 
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
-            ps.setString(1, evento.getNome());
-            ps.setString(2,evento.getEndereco());
-            ps.setTimestamp(3, new Timestamp(evento.getData().getTime()));
-            ps.setLong(4, evento.getFkAgenda());
+            ps.setString(1, evento.getTitulo());
+            ps.setTimestamp(2,new Timestamp(evento.getDataInicio().getTime()));
+            ps.setTimestamp(3, new Timestamp(evento.getDataFim().getTime()));
+            ps.setLong(4, evento.getFkUsuario());
 
             if(ps.executeUpdate() != 0)
                 result = true;
@@ -42,7 +42,7 @@ public class EventoDAO implements GenericDAO<Evento> {
     public Evento findById(long id) {
 
         Evento evento = new Evento();
-        String sql = "SELECT * FROM evento WHERE id = ?";
+        String sql = "SELECT * FROM startmeup.Evento WHERE id = ?";
 
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
@@ -50,10 +50,11 @@ public class EventoDAO implements GenericDAO<Evento> {
             ResultSet rs = ps.executeQuery();
             while (rs.next()){
                 evento.setId(rs.getLong("id"));
-                evento.setNome(rs.getString("nome"));
-                evento.setEndereco(rs.getString("endereco"));
-                evento.setData(new java.util.Date(rs.getTimestamp("dataEvent").getTime()));
-                evento.setFkAgenda(rs.getLong("fkAgenda"));
+                evento.setTitulo(rs.getString("titulo"));
+                evento.setDataInicio(new java.util.Date(rs.getTimestamp("dataInicio").getTime()));
+                evento.setDataFim(new java.util.Date(rs.getTimestamp("dataFim").getTime()));
+                evento.setFkUsuario(rs.getLong("fkUsuario"));
+                evento.setFkUsuario(rs.getLong("fkUsuario"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -65,7 +66,7 @@ public class EventoDAO implements GenericDAO<Evento> {
     public List<Evento> findAll() {
 
         List<Evento> eventos = new ArrayList<>();
-        String sql = "SELECT * FROM evento";
+        String sql = "SELECT * FROM startmeup.Evento";
 
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
@@ -73,10 +74,10 @@ public class EventoDAO implements GenericDAO<Evento> {
             while (rs.next()){
                 Evento evento = new Evento();
                 evento.setId(rs.getLong("id"));
-                evento.setNome(rs.getString("nome"));
-                evento.setEndereco(rs.getString("endereco"));
-                evento.setData(new java.util.Date(rs.getTimestamp("dataEvent").getTime()));
-                evento.setFkAgenda(rs.getLong("fkAgenda"));
+                evento.setTitulo(rs.getString("titulo"));
+                evento.setDataInicio(new java.util.Date(rs.getTimestamp("dataInicio").getTime()));
+                evento.setDataFim(new java.util.Date(rs.getTimestamp("dataFim").getTime()));
+                evento.setFkUsuario(rs.getLong("fkUsuario"));
                 eventos.add(evento);
             }
         } catch (SQLException e) {
@@ -89,12 +90,12 @@ public class EventoDAO implements GenericDAO<Evento> {
     public boolean update(Evento evento) {
         boolean result = false;
 
-        String sql = "UPDATE evento SET nome = ?,endereco = ?,dataEvent = ? WHERE id = ?";
+        String sql = "UPDATE startmeup.Evento SET titulo = ?,dataInicio = ?, dataFim = ? WHERE id = ?";
 
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
-            ps.setString(1, evento.getNome());
-            ps.setString(2,evento.getEndereco());
-            ps.setTimestamp(3, new Timestamp(evento.getData().getTime()));
+            ps.setString(1, evento.getTitulo());
+            ps.setTimestamp(2, new Timestamp(evento.getDataInicio().getTime()));
+            ps.setTimestamp(3, new Timestamp(evento.getDataFim().getTime()));
             ps.setLong(4,evento.getId());
 
             if(ps.executeUpdate() != 0)
@@ -110,7 +111,7 @@ public class EventoDAO implements GenericDAO<Evento> {
     public boolean delete(Evento evento) {
 
         List<Evento> eventos = new ArrayList<>();
-        String sql = "DELETE FROM evento WHERE id =?";
+        String sql = "DELETE FROM startmeup.Evento WHERE id =?";
 
         boolean result = false;
 

@@ -13,9 +13,6 @@ import com.google.gson.Gson;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.List;
 
 @Path("eventos")
@@ -55,16 +52,17 @@ public class EventoController {
     }
 
     @POST
-    public String create(@FormParam("nome") String nome,
+    public String create(@FormParam("titulo") String titulo,
                          @FormParam("endereco") String endereco,
-                         @FormParam("data") String data,
-                         @FormParam("idAgenda") long idAgenda) {
+                         @FormParam("dataInicio") String dataInicio,
+                         @FormParam("dataFim") String dataFim,
+                         @FormParam("idUsuario") long idUsuario) {
 
         Evento evento = new Evento();
-        evento.setNome(nome);
-        evento.setEndereco(endereco);
-        evento.setData(DataHandler.parseStringtoDate(data));
-        evento.setFkAgenda(idAgenda);
+        evento.setTitulo(titulo);
+        evento.setDataInicio((DataHandler.parseStringtoDate(dataInicio)));
+        evento.setDataFim(DataHandler.parseStringtoDate(dataFim));
+        evento.setFkUsuario(idUsuario);
 
         ObjectResponse<Boolean> response =
                 eventoBusiness.createEvento(evento);
@@ -74,15 +72,16 @@ public class EventoController {
 
     @PUT
     public String update(@FormParam("id") long id,
-                         @FormParam("nome") String nome,
-                         @FormParam("endereco") String endereco,
-                         @FormParam("data") String data) {
+                         @FormParam("titulo") String titulo,
+                         @FormParam("dataInicio") String dataInicio,
+                         @FormParam("dataFim") String dataFim) {
 
         Evento evento = new Evento();
         evento.setId(id);
-        evento.setNome(nome);
-        evento.setEndereco(endereco);
-        evento.setData(DataHandler.parseStringtoDate(data));
+        evento.setTitulo(titulo);
+        evento.setDataInicio((DataHandler.parseStringtoDate(dataInicio)));
+        evento.setDataFim(DataHandler.parseStringtoDate(dataFim));
+
 
         ObjectResponse<Boolean> response =
                 eventoBusiness.updateEvento(evento);
