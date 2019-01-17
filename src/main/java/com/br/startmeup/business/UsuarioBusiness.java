@@ -3,15 +3,16 @@ package com.br.startmeup.business;
 import com.br.startmeup.DTO.ObjectResponse;
 import com.br.startmeup.Enum.StatusEnum;
 import com.br.startmeup.interfaces.GenericDAO;
+import com.br.startmeup.interfaces.IUsuarioDAO;
 import com.br.startmeup.models.Usuario;
 
 import java.util.List;
 
 public class UsuarioBusiness {
 
-    private GenericDAO<Usuario> genericDAO;
+    private IUsuarioDAO<Usuario> genericDAO;
 
-    public UsuarioBusiness(GenericDAO<Usuario> genericDAO) {
+    public UsuarioBusiness(IUsuarioDAO<Usuario> genericDAO) {
         this.genericDAO = genericDAO;
     }
 
@@ -97,6 +98,19 @@ public class UsuarioBusiness {
         }
         response.setStatus(StatusEnum.FALHA);
         response.setMessage("Falha ao excluir usuario");
+
+        return response;
+    }
+    public ObjectResponse<Usuario> findByEmailUsuario(String email) {
+        ObjectResponse<Usuario> response = new ObjectResponse<>();
+        response.setObject(genericDAO.findByEmail(email));
+
+        if(response.getObject() != null){
+            response.setStatus(StatusEnum.OK);
+            return response;
+        }
+        response.setStatus(StatusEnum.VAZIO);
+        response.setMessage("Nenhum usuario encontrado");
 
         return response;
     }

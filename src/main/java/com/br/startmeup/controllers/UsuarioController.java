@@ -5,6 +5,7 @@ import com.br.startmeup.DTO.ObjectResponse;
 import com.br.startmeup.Enum.StatusEnum;
 import com.br.startmeup.business.UsuarioBusiness;
 import com.br.startmeup.interfaces.GenericDAO;
+import com.br.startmeup.interfaces.IUsuarioDAO;
 import com.br.startmeup.models.Usuario;
 import com.br.startmeup.persistence.DAO.UsuarioDAO;
 import com.br.startmeup.persistence.connection.SingletonConnection;
@@ -21,7 +22,7 @@ import java.util.List;
 @Path("usuarios")
 public class UsuarioController extends Application {
 
-    private GenericDAO<Usuario> genericDAO;
+    private IUsuarioDAO<Usuario> genericDAO;
 
     private EntityManagerFactory factory;
     private EntityManager em;
@@ -59,6 +60,20 @@ public class UsuarioController extends Application {
         ObjectResponse<Usuario> response =
                 usuarioBusiness.findByIdUsuario(id);
         if (response.isStatus() == StatusEnum.OK) {
+            String json = new Gson().toJson(response.getObject());
+            return json;
+        }
+
+        return response.getMessage();
+    }
+
+    @GET
+    @Produces
+    public String getByEmail(@QueryParam("email")String email){
+
+        ObjectResponse<Usuario> response = usuarioBusiness.findByEmailUsuario(email);
+
+        if(response.isStatus().equals(StatusEnum.OK)){
             String json = new Gson().toJson(response.getObject());
             return json;
         }

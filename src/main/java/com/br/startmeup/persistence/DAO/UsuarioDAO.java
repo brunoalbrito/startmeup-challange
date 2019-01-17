@@ -1,6 +1,7 @@
 package com.br.startmeup.persistence.DAO;
 
 import com.br.startmeup.interfaces.GenericDAO;
+import com.br.startmeup.interfaces.IUsuarioDAO;
 import com.br.startmeup.models.Usuario;
 import com.br.startmeup.persistence.connection.SingletonConnection;
 
@@ -11,7 +12,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UsuarioDAO implements GenericDAO<Usuario> {
+public class UsuarioDAO implements IUsuarioDAO<Usuario> {
 
     private Connection connection;
 
@@ -117,5 +118,26 @@ public class UsuarioDAO implements GenericDAO<Usuario> {
             e.printStackTrace();
         }
         return false;
+    }
+
+    @Override
+    public Usuario findByEmail(String email) {
+        Usuario usuario = new Usuario();
+
+        try{
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM startmeup.Usuario WHERE email = ?");
+            statement.setString(1, email);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()){
+                usuario.setId(rs.getLong("id"));
+                usuario.setNome(rs.getString("nome"));
+                usuario.setEmail(rs.getString("email"));
+                usuario.setSenha(rs.getString("senha"));
+            }
+        }catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return usuario;
     }
 }
