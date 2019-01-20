@@ -8,6 +8,8 @@ import com.br.startmeup.interfaces.GenericDAO;
 import com.br.startmeup.interfaces.IUsuarioDAO;
 import com.br.startmeup.models.Usuario;
 import com.br.startmeup.persistence.DAO.UsuarioDAO;
+import com.br.startmeup.persistence.JPA.UsuarioJpaDAO;
+import com.br.startmeup.persistence.connection.JpaEntityManager;
 import com.br.startmeup.persistence.connection.SingletonConnection;
 import com.google.gson.Gson;
 
@@ -24,17 +26,15 @@ public class UsuarioController extends Application {
 
     private IUsuarioDAO<Usuario> genericDAO;
 
-    private EntityManagerFactory factory;
     private EntityManager em;
 
     private UsuarioBusiness usuarioBusiness;
 
     public UsuarioController() {
+        this.em = JpaEntityManager.getInstance().createEntityManager();
         this.genericDAO =
-                new UsuarioDAO(SingletonConnection.getInstance().getConnection());
+                new UsuarioJpaDAO(em);
         this.usuarioBusiness = new UsuarioBusiness(genericDAO);
-        this.factory = Persistence.createEntityManagerFactory("teste");
-        this.em = em = factory.createEntityManager();
     }
 
 
@@ -91,13 +91,9 @@ public class UsuarioController extends Application {
         usuario.setEmail(email);
         usuario.setSenha(senha);
 
-        em.getTransaction().begin();
-        em.merge(usuario);
-        em.getTransaction().commit();
+        ObjectResponse<Boolean> response = usuarioBusiness.create(usuario);
 
-//        ObjectResponse<Boolean> response = usuarioBusiness.create(usuario);
-
-        return "Sucesso";
+        return response.getMessage();
     }
 
     @PUT

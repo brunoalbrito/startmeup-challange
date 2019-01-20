@@ -3,10 +3,10 @@ package com.br.startmeup.controllers;
 import com.br.startmeup.DTO.ObjectResponse;
 import com.br.startmeup.Enum.StatusEnum;
 import com.br.startmeup.business.EventoBusiness;
-import com.br.startmeup.helper.DataHandler;
+import com.br.startmeup.helper.DateHandler;
 import com.br.startmeup.interfaces.GenericDAO;
+import com.br.startmeup.interfaces.IEventoDAO;
 import com.br.startmeup.models.Evento;
-import com.br.startmeup.models.Usuario;
 import com.br.startmeup.persistence.DAO.EventoDAO;
 import com.br.startmeup.persistence.connection.SingletonConnection;
 import com.google.gson.Gson;
@@ -18,7 +18,7 @@ import java.util.List;
 @Path("eventos")
 public class EventoController {
 
-    private GenericDAO<Evento> genericDAO;
+    private IEventoDAO<Evento> genericDAO;
     private EventoBusiness eventoBusiness;
 
     public EventoController() {
@@ -51,6 +51,16 @@ public class EventoController {
         return response.getMessage();
     }
 
+    @GET
+    public String findByIdUsuario(@QueryParam("idUsuario") long id) {
+        ObjectResponse<List<Evento>> response = eventoBusiness.findByIdUsuario(id);
+        if(response.isStatus().equals(StatusEnum.OK)){
+            String json = new Gson().toJson(response.getObject());
+            return json;
+        }
+        return response.getMessage();
+    }
+
     @POST
     public String create(@FormParam("titulo") String titulo,
                          @FormParam("endereco") String endereco,
@@ -60,8 +70,8 @@ public class EventoController {
 
         Evento evento = new Evento();
         evento.setTitulo(titulo);
-        evento.setDataInicio((DataHandler.parseStringtoDate(dataInicio)));
-        evento.setDataFim(DataHandler.parseStringtoDate(dataFim));
+        evento.setDataInicio((DateHandler.parseStringtoDate(dataInicio)));
+        evento.setDataFim(DateHandler.parseStringtoDate(dataFim));
         evento.setFkUsuario(idUsuario);
 
         ObjectResponse<Boolean> response =
@@ -79,8 +89,8 @@ public class EventoController {
         Evento evento = new Evento();
         evento.setId(id);
         evento.setTitulo(titulo);
-        evento.setDataInicio((DataHandler.parseStringtoDate(dataInicio)));
-        evento.setDataFim(DataHandler.parseStringtoDate(dataFim));
+        evento.setDataInicio((DateHandler.parseStringtoDate(dataInicio)));
+        evento.setDataFim(DateHandler.parseStringtoDate(dataFim));
 
 
         ObjectResponse<Boolean> response =

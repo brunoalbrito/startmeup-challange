@@ -1,9 +1,6 @@
 package com.br.startmeup.models;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Date;
 
 @Entity
@@ -19,6 +16,10 @@ public class Evento {
 
     private Date dataFim;
 
+    @OneToOne
+    private Usuario usuario;
+
+    @Transient
     private long fkUsuario;
 
     public long getId() {
@@ -68,7 +69,7 @@ public class Evento {
                 ", titulo='" + titulo + '\'' +
                 ", dataInicio=" + dataInicio +
                 ", dataFim=" + dataFim +
-                ", fkUsuario=" + fkUsuario +
+                ", usuario=" + usuario +
                 '}';
     }
 }

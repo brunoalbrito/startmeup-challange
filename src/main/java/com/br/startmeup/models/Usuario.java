@@ -4,11 +4,10 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name="Usuario")
 public class Usuario {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.TABLE)
     private long id;
 
     private String nome;
@@ -17,7 +16,7 @@ public class Usuario {
 
     private String senha;
 
-    @OneToMany
+    @OneToMany(targetEntity = Evento.class)
     private List<Evento> eventos;
 
     public long getId() {

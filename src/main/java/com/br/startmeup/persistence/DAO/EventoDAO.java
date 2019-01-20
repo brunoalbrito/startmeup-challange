@@ -1,13 +1,14 @@
 package com.br.startmeup.persistence.DAO;
 
 import com.br.startmeup.interfaces.GenericDAO;
+import com.br.startmeup.interfaces.IEventoDAO;
 import com.br.startmeup.models.Evento;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class EventoDAO implements GenericDAO<Evento> {
+public class EventoDAO implements IEventoDAO<Evento> {
 
     private  Connection connection;
 
@@ -20,7 +21,7 @@ public class EventoDAO implements GenericDAO<Evento> {
 
         boolean result = false;
 
-        String sql = "INSERT INTO startmeup.Evento(titulo, dataInicio, dataFim,fkUsuario)VALUES(?,?,?,?)";
+        String sql = "INSERT INTO startmeup.Evento(titulo, dataInicio, dataFim,usuario_id)VALUES(?,?,?,?)";
 
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setString(1, evento.getTitulo());
@@ -53,8 +54,7 @@ public class EventoDAO implements GenericDAO<Evento> {
                 evento.setTitulo(rs.getString("titulo"));
                 evento.setDataInicio(new java.util.Date(rs.getTimestamp("dataInicio").getTime()));
                 evento.setDataFim(new java.util.Date(rs.getTimestamp("dataFim").getTime()));
-                evento.setFkUsuario(rs.getLong("fkUsuario"));
-                evento.setFkUsuario(rs.getLong("fkUsuario"));
+                evento.setFkUsuario(rs.getLong("usuario_id"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -77,7 +77,7 @@ public class EventoDAO implements GenericDAO<Evento> {
                 evento.setTitulo(rs.getString("titulo"));
                 evento.setDataInicio(new java.util.Date(rs.getTimestamp("dataInicio").getTime()));
                 evento.setDataFim(new java.util.Date(rs.getTimestamp("dataFim").getTime()));
-                evento.setFkUsuario(rs.getLong("fkUsuario"));
+                evento.setFkUsuario(rs.getLong("usuario_id"));
                 eventos.add(evento);
             }
         } catch (SQLException e) {
@@ -124,5 +124,29 @@ public class EventoDAO implements GenericDAO<Evento> {
             e.printStackTrace();
         }
         return result;
+    }
+
+    @Override
+    public List<Evento> findByUserId(long id) {
+        List<Evento> eventos = new ArrayList<>();
+        String sql = "SELECT * FROM startmeup.Evento WHERE fkUsuario = ?";
+
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setLong(1, id);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()){
+                Evento evento = new Evento();
+                evento.setId(rs.getLong("id"));
+                evento.setTitulo(rs.getString("titulo"));
+                evento.setDataInicio(new java.util.Date(rs.getTimestamp("dataInicio").getTime()));
+                evento.setDataFim(new java.util.Date(rs.getTimestamp("dataFim").getTime()));
+                evento.setFkUsuario(rs.getLong("usuario_id"));
+                eventos.add(evento);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return eventos;
     }
 }
