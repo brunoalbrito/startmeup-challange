@@ -12,6 +12,7 @@ import com.br.startmeup.persistence.JPA.UsuarioJpaDAO;
 import com.br.startmeup.persistence.connection.JpaEntityManager;
 import com.br.startmeup.persistence.connection.SingletonConnection;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -44,8 +45,9 @@ public class UsuarioController extends Application {
 
         ObjectResponse<List<Usuario>> response =
                 usuarioBusiness.findAllUsuarios();
+        Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
         if (response.isStatus() == StatusEnum.OK) {
-            String json = new Gson().toJson(response.getObject());
+            String json = gson.toJson(response.getObject());
             return json;
         }
 
@@ -57,10 +59,12 @@ public class UsuarioController extends Application {
     @Path("/{id}")
     public String getById(@PathParam("id") long id) {
 
+        Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
+
         ObjectResponse<Usuario> response =
                 usuarioBusiness.findByIdUsuario(id);
         if (response.isStatus() == StatusEnum.OK) {
-            String json = new Gson().toJson(response.getObject());
+            String json = gson.toJson(response.getObject());
             return json;
         }
 
@@ -72,9 +76,10 @@ public class UsuarioController extends Application {
     public String getByEmail(@QueryParam("email")String email){
 
         ObjectResponse<Usuario> response = usuarioBusiness.findByEmailUsuario(email);
+        Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
 
         if(response.isStatus().equals(StatusEnum.OK)){
-            String json = new Gson().toJson(response.getObject());
+            String json = gson.toJson(response.getObject());
             return json;
         }
 

@@ -7,10 +7,14 @@ import com.br.startmeup.helper.DateHandler;
 import com.br.startmeup.interfaces.GenericDAO;
 import com.br.startmeup.interfaces.IEventoDAO;
 import com.br.startmeup.models.Evento;
+import com.br.startmeup.models.Usuario;
 import com.br.startmeup.persistence.DAO.EventoDAO;
+import com.br.startmeup.persistence.JPA.EventoJpaDAO;
+import com.br.startmeup.persistence.connection.JpaEntityManager;
 import com.br.startmeup.persistence.connection.SingletonConnection;
 import com.google.gson.Gson;
 
+import javax.persistence.EntityManager;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.util.List;
@@ -20,9 +24,11 @@ public class EventoController {
 
     private IEventoDAO<Evento> genericDAO;
     private EventoBusiness eventoBusiness;
+    private EntityManager em;
 
     public EventoController() {
-        this.genericDAO = new EventoDAO(SingletonConnection.getInstance().getConnection());
+        em = JpaEntityManager.getInstance().createEntityManager();
+        this.genericDAO = new EventoJpaDAO(em);
         this.eventoBusiness = new EventoBusiness(genericDAO);
     }
 
@@ -72,7 +78,9 @@ public class EventoController {
         evento.setTitulo(titulo);
         evento.setDataInicio((DateHandler.parseStringtoDate(dataInicio)));
         evento.setDataFim(DateHandler.parseStringtoDate(dataFim));
-        evento.setFkUsuario(idUsuario);
+        Usuario usuario = new Usuario();
+        usuario.setId(idUsuario);
+        evento.setUsuario(usuario);
 
         ObjectResponse<Boolean> response =
                 eventoBusiness.createEvento(evento);

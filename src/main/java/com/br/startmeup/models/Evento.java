@@ -1,5 +1,7 @@
 package com.br.startmeup.models;
 
+import com.google.gson.annotations.Expose;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -8,12 +10,16 @@ public class Evento {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Expose
     private long id;
 
+    @Expose
     private String titulo;
 
+    @Expose
     private Date dataInicio;
 
+    @Expose
     private Date dataFim;
 
     @OneToOne
@@ -60,6 +66,14 @@ public class Evento {
 
     public void setFkUsuario(long fkUsuario) {
         this.fkUsuario = fkUsuario;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 
     @Override

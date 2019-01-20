@@ -4,6 +4,7 @@ import com.br.startmeup.interfaces.IUsuarioDAO;
 import com.br.startmeup.models.Usuario;
 
 import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
 import java.util.List;
 
 public class UsuarioJpaDAO implements IUsuarioDAO<Usuario> {
@@ -16,7 +17,13 @@ public class UsuarioJpaDAO implements IUsuarioDAO<Usuario> {
 
     @Override
     public Usuario findByEmail(String email) {
-        return em.find(Usuario.class, email);
+        List<Usuario> usuarios = em.createQuery("FROM " + Usuario.class.getName()).getResultList();
+
+        Usuario usuario = usuarios
+                .stream()
+                .filter((_usuario) -> _usuario.getEmail().equals(email)).findFirst().orElse(new Usuario());
+
+        return usuario;
     }
 
     @Override

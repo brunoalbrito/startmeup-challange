@@ -1,5 +1,7 @@
 package com.br.startmeup.models;
 
+import com.google.gson.annotations.Expose;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -8,12 +10,16 @@ public class Usuario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE)
+    @Expose
     private long id;
 
+    @Expose
     private String nome;
 
+    @Expose
     private String email;
 
+    @Expose
     private String senha;
 
     @OneToMany(targetEntity = Evento.class)
