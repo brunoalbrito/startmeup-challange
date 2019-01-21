@@ -13,6 +13,7 @@ import com.br.startmeup.persistence.JPA.EventoJpaDAO;
 import com.br.startmeup.persistence.connection.JpaEntityManager;
 import com.br.startmeup.persistence.connection.SingletonConnection;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import javax.persistence.EntityManager;
 import javax.ws.rs.*;
@@ -25,11 +26,13 @@ public class EventoController {
     private IEventoDAO<Evento> genericDAO;
     private EventoBusiness eventoBusiness;
     private EntityManager em;
+    private Gson gson;
 
     public EventoController() {
         em = JpaEntityManager.getInstance().createEntityManager();
         this.genericDAO = new EventoJpaDAO(em);
         this.eventoBusiness = new EventoBusiness(genericDAO);
+        this.gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
     }
 
     @GET
@@ -39,7 +42,7 @@ public class EventoController {
         ObjectResponse<List<Evento>> response = eventoBusiness.findAllEventos();
 
         if (response.isStatus() == StatusEnum.OK) {
-            String json = new Gson().toJson(response.getObject());
+            String json = gson.toJson(response.getObject());
 
             return json;
         }
@@ -51,7 +54,7 @@ public class EventoController {
     public String findById(@PathParam("id") long id) {
         ObjectResponse<Evento> response = eventoBusiness.findByIdEvento(id);
         if(response.isStatus().equals(StatusEnum.OK)){
-            String json = new Gson().toJson(response.getObject());
+            String json = gson.toJson(response.getObject());
             return json;
         }
         return response.getMessage();
@@ -61,7 +64,7 @@ public class EventoController {
     public String findByIdUsuario(@QueryParam("idUsuario") long id) {
         ObjectResponse<List<Evento>> response = eventoBusiness.findByIdUsuario(id);
         if(response.isStatus().equals(StatusEnum.OK)){
-            String json = new Gson().toJson(response.getObject());
+            String json = gson.toJson(response.getObject());
             return json;
         }
         return response.getMessage();

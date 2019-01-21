@@ -20,6 +20,7 @@ import javax.persistence.Persistence;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Application;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import java.util.List;
 
 @Path("usuarios")
@@ -73,23 +74,23 @@ public class UsuarioController extends Application {
 
     @GET
     @Produces
-    public String getByEmail(@QueryParam("email")String email){
+    public Response getByEmail(@QueryParam("email")String email){
 
         ObjectResponse<Usuario> response = usuarioBusiness.findByEmailUsuario(email);
         Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
 
         if(response.isStatus().equals(StatusEnum.OK)){
             String json = gson.toJson(response.getObject());
-            return json;
+            return Response.ok(json, MediaType.APPLICATION_JSON).build();
         }
 
-        return response.getMessage();
+        return Response.status(Response.Status.NOT_FOUND).build();
     }
 
     @POST
-    public String create(@FormParam("nome") String nome,
-                         @FormParam("email") String email,
-                         @FormParam("senha") String senha) {
+    public Response create(@FormParam("nome") String nome,
+                           @FormParam("email") String email,
+                           @FormParam("senha") String senha) {
 //    public String create() {
         Usuario usuario = new Usuario();
         usuario.setNome(nome);
@@ -98,7 +99,11 @@ public class UsuarioController extends Application {
 
         ObjectResponse<Boolean> response = usuarioBusiness.create(usuario);
 
-        return response.getMessage();
+        if(response.isStatus() == StatusEnum.OK){
+            return Response.ok(response, MediaType.APPLICATION_JSON).build();
+        }
+
+        return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
     }
 
     @PUT

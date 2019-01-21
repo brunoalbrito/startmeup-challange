@@ -21,8 +21,7 @@ public class UsuarioJpaDAO implements IUsuarioDAO<Usuario> {
 
         Usuario usuario = usuarios
                 .stream()
-                .filter((_usuario) -> _usuario.getEmail().equals(email)).findFirst().orElse(new Usuario());
-
+                .filter((_usuario) -> _usuario.getEmail().equals(email)).findFirst().orElse(null);
         return usuario;
     }
 

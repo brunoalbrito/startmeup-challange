@@ -2,9 +2,13 @@ package com.br.startmeup.persistence.JPA;
 
 import com.br.startmeup.interfaces.IEventoDAO;
 import com.br.startmeup.models.Evento;
+import com.br.startmeup.models.Usuario;
 
 import javax.persistence.EntityManager;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class EventoJpaDAO implements IEventoDAO<Evento> {
@@ -18,12 +22,17 @@ public class EventoJpaDAO implements IEventoDAO<Evento> {
 
     @Override
     public List<Evento> findByUserId(long id) {
-        List<Evento> eventos = em.createQuery("FROM "+ Evento.class).getResultList();
+        List<Evento> eventos = em.createQuery("FROM " + Evento.class.getName()).getResultList();
 
-        return eventos
-                .stream()
-                .filter((evento) -> evento.getUsuario().getId() == id)
-                .collect(Collectors.toList());
+        List<Evento> _eventos = new ArrayList<>();
+
+        for (Evento evento : eventos
+        ) {
+            if (evento.getUsuario().getId() == id)
+                _eventos.add(evento);
+        }
+
+        return _eventos;
     }
 
     @Override
