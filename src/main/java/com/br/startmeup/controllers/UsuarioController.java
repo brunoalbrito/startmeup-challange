@@ -42,17 +42,22 @@ public class UsuarioController extends Application {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public String getAll() {
+    public Response getAll() {
 
-        ObjectResponse<List<Usuario>> response =
-                usuarioBusiness.findAllUsuarios();
-        Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
-        if (response.isStatus() == StatusEnum.OK) {
-            String json = gson.toJson(response.getObject());
-            return json;
+        try{
+            ObjectResponse<List<Usuario>> response =
+                    usuarioBusiness.findAllUsuarios();
+            Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
+            if (response.isStatus() == StatusEnum.OK) {
+                String json = gson.toJson(response.getObject());
+                return Response.ok(json, MediaType.APPLICATION_JSON).build();
+            }
+        }catch (Exception ex){
+            ex.printStackTrace();
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
         }
 
-        return response.getMessage();
+        return Response.status(Response.Status.NOT_FOUND).build();
     }
 
     @GET
@@ -76,12 +81,17 @@ public class UsuarioController extends Application {
     @Produces
     public Response getByEmail(@QueryParam("email")String email){
 
-        ObjectResponse<Usuario> response = usuarioBusiness.findByEmailUsuario(email);
-        Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
+        try {
+            ObjectResponse<Usuario> response = usuarioBusiness.findByEmailUsuario(email);
+            Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
 
-        if(response.isStatus().equals(StatusEnum.OK)){
-            String json = gson.toJson(response.getObject());
-            return Response.ok(json, MediaType.APPLICATION_JSON).build();
+            if(response.isStatus().equals(StatusEnum.OK)){
+                String json = gson.toJson(response.getObject());
+                return Response.ok(json, MediaType.APPLICATION_JSON).build();
+            }
+        }catch (Exception ex){
+            ex.printStackTrace();
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
         }
 
         return Response.status(Response.Status.NOT_FOUND).build();
@@ -91,23 +101,24 @@ public class UsuarioController extends Application {
     public Response create(@FormParam("nome") String nome,
                            @FormParam("email") String email,
                            @FormParam("senha") String senha) {
-//    public String create() {
-        Usuario usuario = new Usuario();
-        usuario.setNome(nome);
-        usuario.setEmail(email);
-        usuario.setSenha(senha);
+        try{
+            Usuario usuario = new Usuario();
+            usuario.setNome(nome);
+            usuario.setEmail(email);
+            usuario.setSenha(senha);
+            ObjectResponse<Boolean> response = usuarioBusiness.create(usuario);
 
-        ObjectResponse<Boolean> response = usuarioBusiness.create(usuario);
-
-        if(response.isStatus() == StatusEnum.OK){
-            return Response.ok(response, MediaType.APPLICATION_JSON).build();
+            if(response.isStatus() == StatusEnum.OK){
+                return Response.ok(response, MediaType.APPLICATION_JSON).build();
+            }
+        }catch (Exception ex){
+            ex.printStackTrace();
         }
-
         return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
     }
 
     @PUT
-    public String update(@FormParam("id") long id,
+    public Response update(@FormParam("id") long id,
                          @FormParam("nome") String nome,
                          @FormParam("email") String email,
                          @FormParam("senha") String senha) {
@@ -118,19 +129,33 @@ public class UsuarioController extends Application {
         usuario.setEmail(email);
         usuario.setSenha(senha);
 
-        ObjectResponse<Boolean> response = usuarioBusiness.updateUsuario(usuario);
+        try{
+            ObjectResponse<Boolean> response = usuarioBusiness.updateUsuario(usuario);
+            if(response.isStatus() == StatusEnum.OK){
+                return Response.ok(response.getMessage(), MediaType.APPLICATION_JSON).build();
+            }
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
 
-        return response.getMessage();
+        return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
     }
 
     @DELETE
-    public String delete(@FormParam("id")long id){
+    public Response delete(@FormParam("id")long id){
         Usuario usuario = new Usuario();
         usuario.setId(id);
 
-        ObjectResponse<Boolean> response = usuarioBusiness.deleteUsuario(usuario);
+        try{
+            ObjectResponse<Boolean> response = usuarioBusiness.deleteUsuario(usuario);
 
-        return response.getMessage();
+            if(response.isStatus() == StatusEnum.OK)
+                return Response.status(Response.Status.OK).build();
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
+
+        return Response.ok(Response.Status.INTERNAL_SERVER_ERROR).build();
     }
 }
 
