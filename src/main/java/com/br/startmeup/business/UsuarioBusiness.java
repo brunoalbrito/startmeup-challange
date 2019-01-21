@@ -7,6 +7,7 @@ import com.br.startmeup.interfaces.IUsuarioDAO;
 import com.br.startmeup.models.Usuario;
 
 import java.util.List;
+import java.util.Objects;
 
 public class UsuarioBusiness {
 
@@ -49,13 +50,14 @@ public class UsuarioBusiness {
         return response;
     }
 
-    public ObjectResponse<Boolean> create(Usuario usuario){
+    public ObjectResponse<Usuario> create(Usuario usuario){
 
-        ObjectResponse<Boolean> response = new ObjectResponse<>();
+        ObjectResponse<Usuario> response = new ObjectResponse<>();
 
-        boolean status = genericDAO.create(usuario);
+        Usuario result = genericDAO.create(usuario);
 
-        if(status){
+        if(!Objects.isNull(result.getId())){
+            response.setObject(result);
             response.setMessage("Usuario criado com sucesso");
             response.setStatus(StatusEnum.OK);
             return response;

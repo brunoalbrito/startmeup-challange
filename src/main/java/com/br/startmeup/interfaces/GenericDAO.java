@@ -4,7 +4,7 @@ import java.util.List;
 
 public interface GenericDAO <T> {
 
-    public boolean create(T t);
+    public T create(T t);
 
     public T findById(long id);
 

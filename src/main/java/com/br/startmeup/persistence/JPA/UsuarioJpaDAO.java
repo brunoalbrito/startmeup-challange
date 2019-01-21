@@ -26,17 +26,16 @@ public class UsuarioJpaDAO implements IUsuarioDAO<Usuario> {
     }
 
     @Override
-    public boolean create(Usuario usuario) {
+    public Usuario create(Usuario usuario) {
         try{
             em.getTransaction().begin();
             em.persist(usuario);
             em.getTransaction().commit();
-            return true;
         }catch (Exception ex){
             em.getTransaction().rollback();
             ex.printStackTrace();
         }
-        return false;
+        return usuario;
     }
 
     @Override

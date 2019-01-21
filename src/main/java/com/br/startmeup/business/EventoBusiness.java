@@ -7,10 +7,10 @@ import com.br.startmeup.interfaces.GenericDAO;
 import com.br.startmeup.interfaces.IEventoDAO;
 import com.br.startmeup.models.Evento;
 import com.br.startmeup.models.Usuario;
-import com.br.startmeup.persistence.DAO.EventoDAO;
 
 import java.sql.Connection;
 import java.util.List;
+import java.util.Objects;
 
 public class EventoBusiness {
 
@@ -50,11 +50,12 @@ public class EventoBusiness {
         return response;
     }
 
-    public ObjectResponse<Boolean> createEvento(Evento evento){
+    public ObjectResponse<Evento> createEvento(Evento evento){
 
-        ObjectResponse<Boolean> response = new ObjectResponse<>();
-        boolean result = genericDAO.create(evento);
-        if(result){
+        ObjectResponse<Evento> response = new ObjectResponse<>();
+        Evento result = genericDAO.create(evento);
+        if(Objects.isNull(result.getId())){
+            response.setObject(result);
             response.setMessage("Evento inserido com sucesso");
             return response;
         }

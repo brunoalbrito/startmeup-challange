@@ -4,19 +4,14 @@ package com.br.startmeup.controllers;
 import com.br.startmeup.DTO.ObjectResponse;
 import com.br.startmeup.Enum.StatusEnum;
 import com.br.startmeup.business.UsuarioBusiness;
-import com.br.startmeup.interfaces.GenericDAO;
 import com.br.startmeup.interfaces.IUsuarioDAO;
 import com.br.startmeup.models.Usuario;
-import com.br.startmeup.persistence.DAO.UsuarioDAO;
 import com.br.startmeup.persistence.JPA.UsuarioJpaDAO;
 import com.br.startmeup.persistence.connection.JpaEntityManager;
-import com.br.startmeup.persistence.connection.SingletonConnection;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Application;
 import javax.ws.rs.core.MediaType;
@@ -106,10 +101,12 @@ public class UsuarioController extends Application {
             usuario.setNome(nome);
             usuario.setEmail(email);
             usuario.setSenha(senha);
-            ObjectResponse<Boolean> response = usuarioBusiness.create(usuario);
+            ObjectResponse<Usuario> response = usuarioBusiness.create(usuario);
+            Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
 
             if(response.isStatus() == StatusEnum.OK){
-                return Response.ok(response, MediaType.APPLICATION_JSON).build();
+                String json = gson.toJson(response.getObject());
+                return Response.ok(json, MediaType.APPLICATION_JSON).build();
             }
         }catch (Exception ex){
             ex.printStackTrace();

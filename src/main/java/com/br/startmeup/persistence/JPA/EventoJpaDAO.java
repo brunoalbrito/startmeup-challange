@@ -36,17 +36,16 @@ public class EventoJpaDAO implements IEventoDAO<Evento> {
     }
 
     @Override
-    public boolean create(Evento evento) {
+    public Evento create(Evento evento) {
         try{
             em.getTransaction().begin();
             em.persist(evento);
             em.getTransaction().commit();
-            return true;
         }catch (Exception ex){
             em.getTransaction().rollback();
             ex.printStackTrace();
         }
-        return false;
+        return evento;
     }
 
     @Override

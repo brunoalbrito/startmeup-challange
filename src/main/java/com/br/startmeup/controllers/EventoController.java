@@ -4,14 +4,11 @@ import com.br.startmeup.DTO.ObjectResponse;
 import com.br.startmeup.Enum.StatusEnum;
 import com.br.startmeup.business.EventoBusiness;
 import com.br.startmeup.helper.DateHandler;
-import com.br.startmeup.interfaces.GenericDAO;
 import com.br.startmeup.interfaces.IEventoDAO;
 import com.br.startmeup.models.Evento;
 import com.br.startmeup.models.Usuario;
-import com.br.startmeup.persistence.DAO.EventoDAO;
 import com.br.startmeup.persistence.JPA.EventoJpaDAO;
 import com.br.startmeup.persistence.connection.JpaEntityManager;
-import com.br.startmeup.persistence.connection.SingletonConnection;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -85,7 +82,7 @@ public class EventoController {
         usuario.setId(idUsuario);
         evento.setUsuario(usuario);
 
-        ObjectResponse<Boolean> response =
+        ObjectResponse<Evento> response =
                 eventoBusiness.createEvento(evento);
 
         return response.getMessage();
