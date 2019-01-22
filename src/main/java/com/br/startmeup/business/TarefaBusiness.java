@@ -3,6 +3,7 @@ package com.br.startmeup.business;
 import com.br.startmeup.DTO.ObjectResponse;
 import com.br.startmeup.Enum.StatusEnum;
 import com.br.startmeup.interfaces.GenericDAO;
+import com.br.startmeup.interfaces.ITarefaDAO;
 import com.br.startmeup.models.Evento;
 import com.br.startmeup.models.Tarefa;
 
@@ -11,9 +12,9 @@ import java.util.Objects;
 
 public class TarefaBusiness {
 
-    private GenericDAO<Tarefa> genericDAO;
+    private ITarefaDAO<Tarefa> genericDAO;
 
-    public TarefaBusiness(GenericDAO<Tarefa> genericDAO) {
+    public TarefaBusiness(ITarefaDAO<Tarefa> genericDAO) {
         this.genericDAO = genericDAO;
     }
 
@@ -28,10 +29,6 @@ public class TarefaBusiness {
         response.setStatus(StatusEnum.VAZIO);
 
         return response;
-    }
-
-    public ObjectResponse<List<Evento>> findByIdUsuario(long id) {
-        return null;
     }
 
     public ObjectResponse<Tarefa> createTarefa(Tarefa tarefa) {
@@ -79,6 +76,19 @@ public class TarefaBusiness {
         if(response.getObject()){
             return response;
         }
+        return response;
+    }
+    public ObjectResponse<List<Tarefa>> findByIdUsuario(long id) {
+        ObjectResponse<List<Tarefa>> response = new ObjectResponse<>();
+        response.setObject(genericDAO.findByUserId(id));
+
+        if(response.getObject() != null){
+            response.setStatus(StatusEnum.OK);
+            return  response;
+        }
+        response.setStatus(StatusEnum.VAZIO);
+        response.setMessage("Evento não encontrado");
+
         return response;
     }
 }

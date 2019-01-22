@@ -1,12 +1,14 @@
 package com.br.startmeup.persistence.JPA;
 
 import com.br.startmeup.interfaces.GenericDAO;
+import com.br.startmeup.interfaces.ITarefaDAO;
 import com.br.startmeup.models.Tarefa;
 
 import javax.persistence.EntityManager;
+import java.util.ArrayList;
 import java.util.List;
 
-public class TarafaJpaDAO implements GenericDAO<Tarefa> {
+public class TarafaJpaDAO implements ITarefaDAO<Tarefa> {
 
     private EntityManager em;
 
@@ -64,5 +66,19 @@ public class TarafaJpaDAO implements GenericDAO<Tarefa> {
             ex.printStackTrace();
         }
         return verifica;
+    }
+    @Override
+    public List<Tarefa> findByUserId(long id) {
+        List<Tarefa> tarefas = em.createQuery("FROM " + Tarefa.class.getName()).getResultList();
+
+        List<Tarefa> _tarefas = new ArrayList<>();
+
+        for (Tarefa tarefa : tarefas
+        ) {
+            if (tarefa.getUsuario().getId() == id)
+                _tarefas.add(tarefa);
+        }
+
+        return _tarefas;
     }
 }

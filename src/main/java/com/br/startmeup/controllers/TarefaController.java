@@ -6,6 +6,7 @@ import com.br.startmeup.Enum.StatusEvento;
 import com.br.startmeup.business.TarefaBusiness;
 import com.br.startmeup.helper.DateHandler;
 import com.br.startmeup.interfaces.GenericDAO;
+import com.br.startmeup.interfaces.ITarefaDAO;
 import com.br.startmeup.models.Evento;
 import com.br.startmeup.models.Tarefa;
 import com.br.startmeup.models.Usuario;
@@ -22,7 +23,7 @@ import java.util.List;
 
 @Path("tarefas")
 public class TarefaController {
-    private GenericDAO<Tarefa> genericDAO;
+    private ITarefaDAO<Tarefa> genericDAO;
     private TarefaBusiness tarefaBusiness;
     private EntityManager em;
     private Gson gson;
@@ -61,7 +62,7 @@ public class TarefaController {
 
     @GET
     public String findByIdUsuario(@QueryParam("idUsuario") long id) {
-        ObjectResponse<List<Evento>> response = tarefaBusiness.findByIdUsuario(id);
+        ObjectResponse<List<Tarefa>> response = tarefaBusiness.findByIdUsuario(id);
         if (response.isStatus().equals(StatusEnum.OK)) {
             String json = gson.toJson(response.getObject());
             return json;
@@ -74,7 +75,8 @@ public class TarefaController {
                            @FormParam("dataInicio") String dataInicio,
                            @FormParam("dataFim") String dataFim,
                            @FormParam("statusTarefa") String statusTarefa,
-                           @FormParam("idUsuario") long idUsuario) {
+                           @FormParam("idUsuario") long idUsuario,
+                           @FormParam("priodirade")int prioridade) {
 
         Response response = Response.status(Response.Status.BAD_REQUEST).build();
 
@@ -84,6 +86,7 @@ public class TarefaController {
             tarefa.setDataInicio((DateHandler.parseStringtoDate(dataInicio)));
             tarefa.setDataFim(DateHandler.parseStringtoDate(dataFim));
             tarefa.setStatusEvento(StatusEvento.valueOf(statusTarefa));
+            tarefa.setPrioridade(prioridade);
 
             Usuario usuario = new Usuario();
             usuario.setId(idUsuario);
@@ -106,7 +109,8 @@ public class TarefaController {
                          @FormParam("nome") String nome,
                          @FormParam("dataInicio") String dataInicio,
                          @FormParam("dataFim") String dataFim,
-                         @FormParam("statusTarefa") String statusTarefa) {
+                         @FormParam("statusTarefa") String statusTarefa,
+                         @FormParam("priodirade")int prioridade) {
 
         Tarefa tarefa = new Tarefa();
         tarefa.setId(id);
@@ -114,6 +118,7 @@ public class TarefaController {
         tarefa.setDataInicio((DateHandler.parseStringtoDate(dataInicio)));
         tarefa.setDataFim(DateHandler.parseStringtoDate(dataFim));
         tarefa.setStatusEvento(StatusEvento.valueOf(statusTarefa));
+        tarefa.setPrioridade(prioridade);
 
         ObjectResponse<Boolean> response =
                 tarefaBusiness.updateTarefa(tarefa);

@@ -31,6 +31,9 @@ public class Tarefa {
     @Expose
     private StatusEvento statusEvento;
 
+    @Expose
+    private int prioridade;
+
     public long getId() {
         return id;
     }
@@ -79,6 +82,14 @@ public class Tarefa {
         this.statusEvento = statusEvento;
     }
 
+    public int getPrioridade() {
+        return prioridade;
+    }
+
+    public void setPrioridade(int prioridade) {
+        this.prioridade = prioridade;
+    }
+
     @Override
     public String toString() {
         return "Tarefa{" +
@@ -88,6 +99,7 @@ public class Tarefa {
                 ", dataFim=" + dataFim +
                 ", usuario=" + usuario +
                 ", statusEvento=" + statusEvento +
+                ", prioridade=" + prioridade +
                 '}';
     }
 }
